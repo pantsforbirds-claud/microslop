@@ -5,6 +5,8 @@
 name: build-libreoffice
 
 on:
+  push:
+    branches: [ci-test-build-lo]
   workflow_dispatch:
     inputs:
       publish:
@@ -89,7 +91,7 @@ jobs:
           compression-level: 0
 
       - name: Publish release
-        if: inputs.publish
+        if: inputs.publish || github.event_name == 'push'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
